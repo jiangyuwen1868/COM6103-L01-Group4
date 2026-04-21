@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration status="off" monitorInterval="1800">
+    <properties>
+        <property name="LOG_HOME">./logs</property>
+        <property name="DEBUG_LOG_FILE_NAME">csp_debug</property>
+        <property name="ERROR_LOG_FILE_NAME">csp_error</property>
+    </properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <!--
+            <PatternLayout pattern="%d %-5p (%F:%L) - %m%n" />
+             -->
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level (%F:%L) - %msg%n"/>
+        </Console>
+
+        <!--  ACCEPT（放行）、DENY（拒绝）、NEUTRAL（不做任何操作）               -->
+        <!--  onMatch  >= level  onMatch 指的是日志级别大于等于 level 时的操作    -->
+        <!--  onMismatch < levle onMismatch 表示日志级别小于 level 时的操作       -->
+        <!--  log 级别 off > fatal > error > warn > info > debug > trace > all    -->
+        <!--  通过添加两组 ThresholdFilter 可以达到一个级别的 log 一个文件的目的  -->
+        <!--  ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF             -->
+
+        <RollingRandomAccessFile name="DebugLog"
+            fileName="${LOG_HOME}/${DEBUG_LOG_FILE_NAME}.log"
+            filePattern="${LOG_HOME}/${DEBUG_LOG_FILE_NAME}.log.%d{yyyy-MM-dd}.gz">
+
+            <Filters>
+                <!-- 将 INFO 及其以上级别的日志给 DENY 掉 -->
+                <ThresholdFilter level="INFO" onMatch="DENY" onMismatch="ACCEPT" />
+                <!-- ACCEPT DEBUB 级别的日志 -->
+                <ThresholdFilter level="DEBUB" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
+
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level (%F:%L) - %msg%n"/>
+
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="100 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20" />
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile name="ErrorLog"
+            fileName="${LOG_HOME}/${ERROR_LOG_FILE_NAME}.log"
+            filePattern="${LOG_HOME}/${ERROR_LOG_FILE_NAME}.log.%d{yyyy-MM-dd}.gz">
+
+            <Filters>
+                <!-- ACCEPT ERROR 级别的日志 -->
+                <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
+
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level (%F:%L) - %msg%n"/>
+
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="100 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20" />
+        </RollingRandomAccessFile>
+    </Appenders>
+
+    <Loggers>
+        <logger name="com.jyw.gwapi" level="debug" includeLocation="true" additivity="false">
+            <appender-ref ref="DebugLog" />
+            <appender-ref ref="Console" />
+        </logger>
+
+        <logger name="com.jyw.csp" level="debug" includeLocation="true" additivity="false">
+            <appender-ref ref="DebugLog" />
+            <appender-ref ref="ErrorLog" />
+            <appender-ref ref="Console" />
+        </logger>
+
+        <logger name="com.jyw.csp.api" level="debug" includeLocation="true" additivity="false">
+            <appender-ref ref="DebugLog" />
+            <appender-ref ref="ErrorLog" />
+            <appender-ref ref="Console" />
+        </logger>
+
+        <logger name="com.anykit" level="debug" includeLocation="true" additivity="false">
+            <appender-ref ref="Console" />
+        </logger>
+
+        <root level="debug" includeLocation="true">
+            <appender-ref ref="ErrorLog" />
+            <!--
+            <appender-ref ref="Console" />
+            -->
+        </root>
+    </Loggers>
+</Configuration>

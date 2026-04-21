@@ -1,0 +1,16 @@
+X-Ca-Timestamp:1775201772404
+X-Ca-Signature:d39M9/b5YiuiEZNUOYkryKKHKG/5GWXG+LMmjdqGSyc=
+X-Ca-AppKey:csp
+Date:Fri, 03 Apr 2026 07:36:12 GMT
+X-Ca-Nonce:e7268719-ea6c-4e20-9fb4-7d1d5a96a79e
+
+Content-MD5:vlfDFzjVOEXgL26jk/Bwbg==
+X-Ca-Signature-Headers:X-Ca-AppKey,X-Ca-Nonce,X-Ca-Timestamp
+Content-Type:application/json;charset=UTF-8
+Accept:application/json;charset=UTF-8
+
+---BODY---
+{"app_id":"csp","request_info":"RlmF8lmZ3QZFK3nX6BbQzXWKSIjai+EZEHD0/sTjiQEi8k4h1mNO+ivI84YA9IoNTuP4u7aXRBGJgaM8/M0B0PvwMOmoQN2pXBjPrdybOspeKnDv65N6CKcEe/iEkrsjQfeZ1YdAxMoR59e2UYYdq+d4MUJTsK1qePnB6NoHMp8Gp1BiI84Pzyw3CKytMBU17EwExD7EGwNuiRtsFdsMxytk9yyxFk3NYXnXrOkCJiIltvBARMttxIpqLWszFRvf4B8eqazL/3sThqzGVUErkSbOVbSk/IJArE1cxQNSe7kIcAtL7iAARAanUGIjzg/Pb3WkQFjuDe4VLUWssQQjFSRvKyLddUqbkWYho6/gC+tV9O+vZcw7XQrZqm1XRi1GkiJgeBV1KqWHTLS38TZL1+7qeAgpdRNsl2P1Jsb7ZSKTdl71HXXtKpUGFenhchQxCehI/5x1A5qCKjEcBBljJc2NSG93w7/HRBAApu6APS4oP9Wy1cMTZU/ZDHIE58WyHeP+PeefDVcT3HsSn7lKLWIdVtube3KDrKdZl08PUNJE+UQNVKZwBywjhR65BYF1ob4TIiu4pCLfJ1qSFVSs8VRDEcf5zNPOFJWXykbpWPiAo6lw33/EpMEnkB6kA6/rdOowA4HOlFAdMzk2aivTj94ouaHC9PYqzulTqJ6pIp2AVwdRyovYLBnokG+3uufjDz7tOMVLFppqd87kjFn/JyEUPY3oOieeN4NIbJCMtlyv+JDTyUBU0mC1+ZVouLsn","sec_version":"02","signature":"kXPsCcGtKdzbbRfRO1SUu46nVosUbupPDI9phX9iuUwkOyLaY5YmqJ/DCKhfd6shze0Tcppz3WpH5vecRY7oRLxwrBmT076SDdKqndL4hJC8l/gW4OOSp6wYDRH8C2DuSMpr/d17ZyRwptaiv6o0zCzRIC+C5MI79/nvG5kZ2KHWQlfKVgd2loP3w46qeHA1QhTOhjjg9Vhd9b8nSkg4yyxP5YFRwxkiMRHt2Qlf3hjVajhPBcbstVen1VrRgZYvQphQkTjpOOgORxJqnHGINzxKyW/LVdfIcR732+A6VOYv5+61ahs2mRhlbPATWQ54PQX9rXGf1pV2HkeHpsKOyg==","tx_code":""}
+
+---PLAINTEXT---
+{"tx_header":{"sys_evt_trace_id":"6d9043286f234999b7c8071b54fbcf99","sys_tx_code":"CSP200005","sys_pkg_version":"01","sys_req_time":"20260403212324062","sys_pkg_sts_type":"00","sys_snd_serial_no":"1"},"tx_body":{"entity":{"upload_time":"2026-03-11 20:20:00","device_sn":"SN2026001001-2","battery_level":92.5,"data_time":"2026-03-11 20:19:00","data_value":"1.458","data_type":"1","designID":"csp","remark":"api submit","signal_strength":"-87dBm","nodeID":"csp","data_unit":"立方米","keyModelID":"csp"},"com1":{"appId":"csp","channelTxCode":"CspOpenApi","tenantId":"csp"}}}
