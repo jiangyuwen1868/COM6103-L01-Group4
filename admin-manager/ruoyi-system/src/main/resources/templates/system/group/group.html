@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('Group List')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:group:add">
+                    <i class="fa fa-plus"></i> Add
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:group:edit">
+                    <i class="fa fa-edit"></i> Edit
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:group:remove">
+                    <i class="fa fa-remove"></i> Delete
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:group:export">
+                    <i class="fa fa-download"></i> Export
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:group:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:group:remove')}]];
+        var prefix = ctx + "system/group";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "Group",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'groupid',
+                    title: 'Group ID'
+                },
+                {
+                    field: 'reqmethod',
+                    title: 'Request Method'
+                },
+                {
+                    field: 'contenttype',
+                    title: 'Content Type'
+                },
+                {
+                    field: 'conntimeout',
+                    title: 'Connection Timeout'
+                },
+                {
+                    field: 'sotimeout',
+                    title: 'Read/Write Timeout'
+                },
+                {
+                    field: 'connmaxsize',
+                    title: 'Max Connections'
+                },
+                {
+                    field: 'heartinteval',
+                    title: 'Heartbeat Interval'
+                },
+                {
+                    field: 'lbstrategy',
+                    title: 'Load Balancing Strategy',
+				visible: false
+                },
+                {
+                    field: 'isbalance',
+                    title: 'Load Balancing',
+				visible: false
+                },
+                {
+                    field: 'isuseproxyauthor',
+                    title: 'Use Proxy',
+				visible: false
+                },
+                {
+                    field: 'proxyip',
+                    title: 'Proxy IP',
+				visible: false
+                },
+                {
+                    field: 'proxyport',
+                    title: 'Proxy Port',
+				visible: false
+                },
+                {
+                    field: 'proxyusername',
+                    title: 'Proxy Username',
+				visible: false
+                },
+                {
+                    field: 'proxyuserpass',
+                    title: 'Proxy Password',
+				visible: false
+                },
+                {
+                    field: 'remark',
+                    title: 'Remarks'
+                },
+                {
+                    title: 'Actions',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.groupid + '\')"><i class="fa fa-edit"></i>Edit</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.groupid + '\')"><i class="fa fa-remove"></i>Delete</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

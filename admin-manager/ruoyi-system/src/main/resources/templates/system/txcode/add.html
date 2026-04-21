@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('Add Transaction Code')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-txcode-add">
+			<div class="form-group">    
+	            <label class="col-sm-3 control-label is-required">Tx Code：</label>
+	            <div class="col-sm-8">
+	                <input name="txcode" class="form-control" type="text" required>
+	            </div>
+	        </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">Tx Name：</label>
+                <div class="col-sm-8">
+                    <input name="txname" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">Tx Type：</label>
+                <div class="col-sm-8">
+                    <select name="txtype" class="form-control m-b" required>
+                        <option value="1">Admin Service</option>
+						<option value="1">Device Service</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">Outbound：</label>
+                <div class="col-sm-8">
+					<select name="isoutbound" class="form-control m-b" required>
+                        <option value="0">Yes</option>
+						<option value="1">No</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">Parent Tx Code：</label>
+                <div class="col-sm-8">
+                    <input name="ptxcode" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">Cluster Group：</label>
+                <div class="col-sm-8">
+					<select name="groupid" class="form-control m-b" required>
+                        <option value="csp01">csp01</option>
+						<option value="csp02">csp02</option>
+						<option value="csp03">csp03</option>
+						<option value="csp04">csp04</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">Remarks：</label>
+                <div class="col-sm-8">
+                    <input name="remark" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "system/txcode"
+        $("#form-txcode-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-txcode-add').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

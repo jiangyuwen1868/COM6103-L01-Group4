@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('Add Flow Control')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-flowcontrol-add">
+			<div class="form-group">    
+                <label class="col-sm-3 control-label is-required">Application Name：</label>
+                <div class="col-sm-8">
+                    <input name="appid" class="form-control" type="text" required>
+                </div>
+            </div>
+			<div class="form-group">    
+                <label class="col-sm-3 control-label is-required">API Service Code：</label>
+                <div class="col-sm-8">
+                    <input name="txcode" class="form-control" type="text" required>
+                </div>
+            </div>
+			<div class="form-group">    
+                <label class="col-sm-3 control-label is-required">TPS Count：</label>
+                <div class="col-sm-8">
+                    <input name="tpscount" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">Operation Switch：</label>
+                <div class="col-sm-8">
+                    <input name="opswitch" class="form-control" type="text" required>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "system/flowcontrol"
+        $("#form-flowcontrol-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-flowcontrol-add').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

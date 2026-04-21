@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.WaterMeterDeviceMapper">
+    
+    <resultMap type="WaterMeterDevice" id="WaterMeterDeviceResult">
+        <result property="id"    column="id"    />
+        <result property="deviceSn"    column="device_sn"    />
+        <result property="deviceModel"    column="device_model"    />
+        <result property="deviceType"    column="device_type"    />
+        <result property="manufacturer"    column="manufacturer"    />
+        <result property="productionDate"    column="production_date"    />
+        <result property="installAddress"    column="install_address"    />
+        <result property="userName"    column="user_name"    />
+        <result property="userPhone"    column="user_phone"    />
+        <result property="userIdCard"    column="user_id_card"    />
+        <result property="installDate"    column="install_date"    />
+        <result property="activationDate"    column="activation_date"    />
+        <result property="status"    column="status"    />
+        <result property="lastOnlineTime"    column="last_online_time"    />
+        <result property="totalWaterUsage"    column="total_water_usage"    />
+        <result property="remainingAmount"    column="remaining_amount"    />
+        <result property="warningThreshold"    column="warning_threshold"    />
+        <result property="firmwareVersion"    column="firmware_version"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectWaterMeterDeviceVo">
+        select id, device_sn, device_model, device_type, manufacturer, production_date, install_address, user_name, user_phone, user_id_card, install_date, activation_date, status, last_online_time, total_water_usage, remaining_amount, warning_threshold, firmware_version, remark, create_time, update_time from water_meter_device
+    </sql>
+
+    <select id="selectWaterMeterDeviceList" parameterType="WaterMeterDevice" resultMap="WaterMeterDeviceResult">
+        <include refid="selectWaterMeterDeviceVo"/>
+        <where>  
+            <if test="deviceSn != null  and deviceSn != ''"> and device_sn = #{deviceSn}</if>
+            <if test="deviceModel != null  and deviceModel != ''"> and device_model = #{deviceModel}</if>
+            <if test="deviceType != null "> and device_type = #{deviceType}</if>
+            <if test="manufacturer != null  and manufacturer != ''"> and manufacturer = #{manufacturer}</if>
+            <if test="productionDate != null "> and production_date = #{productionDate}</if>
+            <if test="installAddress != null  and installAddress != ''"> and install_address = #{installAddress}</if>
+            <if test="userName != null  and userName != ''"> and user_name = #{userName}</if>
+            <if test="userPhone != null  and userPhone != ''"> and user_phone = #{userPhone}</if>
+            <if test="userIdCard != null  and userIdCard != ''"> and user_id_card = #{userIdCard}</if>
+            <if test="installDate != null "> and install_date = #{installDate}</if>
+            <if test="activationDate != null "> and activation_date = #{activationDate}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="lastOnlineTime != null "> and last_online_time = #{lastOnlineTime}</if>
+            <if test="totalWaterUsage != null "> and total_water_usage = #{totalWaterUsage}</if>
+            <if test="remainingAmount != null "> and remaining_amount = #{remainingAmount}</if>
+            <if test="warningThreshold != null "> and warning_threshold = #{warningThreshold}</if>
+            <if test="firmwareVersion != null  and firmwareVersion != ''"> and firmware_version = #{firmwareVersion}</if>
+        </where>
+    </select>
+    
+    <select id="selectWaterMeterDeviceById" parameterType="String" resultMap="WaterMeterDeviceResult">
+        <include refid="selectWaterMeterDeviceVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertWaterMeterDevice" parameterType="WaterMeterDevice" useGeneratedKeys="true" keyProperty="id">
+        insert into water_meter_device
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceSn != null and deviceSn != ''">device_sn,</if>
+            <if test="deviceModel != null and deviceModel != ''">device_model,</if>
+            <if test="deviceType != null">device_type,</if>
+            <if test="manufacturer != null">manufacturer,</if>
+            <if test="productionDate != null">production_date,</if>
+            <if test="installAddress != null">install_address,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="userPhone != null">user_phone,</if>
+            <if test="userIdCard != null">user_id_card,</if>
+            <if test="installDate != null">install_date,</if>
+            <if test="activationDate != null">activation_date,</if>
+            <if test="status != null">status,</if>
+            <if test="lastOnlineTime != null">last_online_time,</if>
+            <if test="totalWaterUsage != null">total_water_usage,</if>
+            <if test="remainingAmount != null">remaining_amount,</if>
+            <if test="warningThreshold != null">warning_threshold,</if>
+            <if test="firmwareVersion != null">firmware_version,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceSn != null and deviceSn != ''">#{deviceSn},</if>
+            <if test="deviceModel != null and deviceModel != ''">#{deviceModel},</if>
+            <if test="deviceType != null">#{deviceType},</if>
+            <if test="manufacturer != null">#{manufacturer},</if>
+            <if test="productionDate != null">#{productionDate},</if>
+            <if test="installAddress != null">#{installAddress},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="userPhone != null">#{userPhone},</if>
+            <if test="userIdCard != null">#{userIdCard},</if>
+            <if test="installDate != null">#{installDate},</if>
+            <if test="activationDate != null">#{activationDate},</if>
+            <if test="status != null">#{status},</if>
+            <if test="lastOnlineTime != null">#{lastOnlineTime},</if>
+            <if test="totalWaterUsage != null">#{totalWaterUsage},</if>
+            <if test="remainingAmount != null">#{remainingAmount},</if>
+            <if test="warningThreshold != null">#{warningThreshold},</if>
+            <if test="firmwareVersion != null">#{firmwareVersion},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWaterMeterDevice" parameterType="WaterMeterDevice">
+        update water_meter_device
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceSn != null and deviceSn != ''">device_sn = #{deviceSn},</if>
+            <if test="deviceModel != null and deviceModel != ''">device_model = #{deviceModel},</if>
+            <if test="deviceType != null">device_type = #{deviceType},</if>
+            <if test="manufacturer != null">manufacturer = #{manufacturer},</if>
+            <if test="productionDate != null">production_date = #{productionDate},</if>
+            <if test="installAddress != null">install_address = #{installAddress},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="userPhone != null">user_phone = #{userPhone},</if>
+            <if test="userIdCard != null">user_id_card = #{userIdCard},</if>
+            <if test="installDate != null">install_date = #{installDate},</if>
+            <if test="activationDate != null">activation_date = #{activationDate},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="lastOnlineTime != null">last_online_time = #{lastOnlineTime},</if>
+            <if test="totalWaterUsage != null">total_water_usage = #{totalWaterUsage},</if>
+            <if test="remainingAmount != null">remaining_amount = #{remainingAmount},</if>
+            <if test="warningThreshold != null">warning_threshold = #{warningThreshold},</if>
+            <if test="firmwareVersion != null">firmware_version = #{firmwareVersion},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteWaterMeterDeviceById" parameterType="String">
+        delete from water_meter_device where id = #{id}
+    </delete>
+
+    <delete id="deleteWaterMeterDeviceByIds" parameterType="String">
+        delete from water_meter_device where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 获取设备总数 -->
+    <select id="getTotalDevices" resultType="java.lang.Long">
+        select count(*) from water_meter_device
+    </select>
+
+    <!-- 获取正常运行设备数 -->
+    <select id="getNormalDevices" resultType="java.lang.Long">
+        select count(*) from water_meter_device where status = 1
+    </select>
+
+    <!-- 获取故障设备数 -->
+    <select id="getFaultyDevices" resultType="java.lang.Long">
+        select count(*) from water_meter_device where status = 2
+    </select>
+
+    <!-- 获取未激活设备数 -->
+    <select id="getUnactivatedDevices" resultType="java.lang.Long">
+        select count(*) from water_meter_device where status = 0
+    </select>
+
+    <!-- 获取设备状态分布 -->
+    <select id="getStatusDistribution" resultType="java.util.Map">
+        select status, count(*) as count from water_meter_device group by status
+    </select>
+
+    <!-- 获取设备类型分布 -->
+    <select id="getTypeDistribution" resultType="java.util.Map">
+        select device_type, count(*) as count from water_meter_device group by device_type
+    </select>
+
+    <!-- 获取用水量统计 -->
+    <select id="getWaterUsage" resultType="java.util.Map">
+        select sum(total_water_usage) as totalUsage, avg(total_water_usage) as averageUsage from water_meter_device
+    </select>
+
+</mapper>

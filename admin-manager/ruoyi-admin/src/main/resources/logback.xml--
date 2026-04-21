@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+
+    <!-- ==================== 公共属性 ==================== -->
+    <property name="LOG_PATH" value="/opt/vote/logs"/>
+    <property name="PATTERN"
+              value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
+
+    <!-- ==================== 全局 Console（保持原有级别） ==================== -->
+    <appender name="CONSOLE_GLOBAL" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- ==================== 只接受 ERROR 的 Console（专给 com.ydxsafe） ==================== -->
+    <appender name="CONSOLE_ERROR_ONLY" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- 只让 ERROR 及以上日志进入此 appender -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- ==================== 文件 Appender（INFO） ==================== -->
+    <appender name="FILE_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/sys-info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/sys-info.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- ==================== 文件 Appender（ERROR） ==================== -->
+    <appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/sys-error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/sys-error.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- ==================== 业务 logger：com.ydxsafe ==================== -->
+    <logger name="com.ydxsafe" level="ERROR" additivity="false">
+        <!-- 只把 ERROR 发到专用的错误 console -->
+        <appender-ref ref="CONSOLE_ERROR_ONLY"/>
+        <!-- 同时写入错误文件（可选） -->
+        <appender-ref ref="FILE_ERROR"/>
+    </logger>
+    <logger name="DriverExecutor" level="ERROR" additivity="false"/>
+
+    <!-- ==================== 其它业务 logger 示例（可选） ==================== -->
+    <logger name="com.ruoyi" level="INFO"/>
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="com.ruoyi.vote.mapper" level="DEBUG">
+        <appender-ref ref="FILE_INFO"/>
+    </logger>
+
+    <!-- ==================== 根 logger（全局） ==================== -->
+    <root level="INFO">
+        <!-- 全局控制台（除 com.ydxsafe 之外） -->
+        <appender-ref ref="CONSOLE_GLOBAL"/>
+        <!-- 文件日志 -->
+        <appender-ref ref="FILE_INFO"/>
+        <appender-ref ref="FILE_ERROR"/>
+    </root>
+
+</configuration>

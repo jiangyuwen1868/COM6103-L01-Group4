@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CspFlowcontrolMapper">
+    
+    <resultMap type="CspFlowcontrol" id="CspFlowcontrolResult">
+        <result property="appid"    column="appid"    />
+        <result property="txcode"    column="txcode"    />
+        <result property="tpscount"    column="tpscount"    />
+        <result property="opswitch"    column="opswitch"    />
+    </resultMap>
+
+    <sql id="selectCspFlowcontrolVo">
+        select appid, txcode, tpscount, opswitch from csp_flowcontrol
+    </sql>
+
+    <select id="selectCspFlowcontrolList" parameterType="CspFlowcontrol" resultMap="CspFlowcontrolResult">
+        <include refid="selectCspFlowcontrolVo"/>
+        <where>  
+            <if test="tpscount != null "> and tpscount = #{tpscount}</if>
+            <if test="opswitch != null  and opswitch != ''"> and opswitch = #{opswitch}</if>
+        </where>
+    </select>
+    
+    <select id="selectCspFlowcontrolById" parameterType="CspFlowcontrol" resultMap="CspFlowcontrolResult">
+        <include refid="selectCspFlowcontrolVo"/>
+        where appid = #{appid} and txcode = #{txcode}
+    </select>
+        
+    <insert id="insertCspFlowcontrol" parameterType="CspFlowcontrol">
+        insert into csp_flowcontrol
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="appid != null">appid,</if>
+            <if test="txcode != null">txcode,</if>
+            <if test="tpscount != null">tpscount,</if>
+            <if test="opswitch != null and opswitch != ''">opswitch,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="appid != null">#{appid},</if>
+            <if test="txcode != null">#{txcode},</if>
+            <if test="tpscount != null">#{tpscount},</if>
+            <if test="opswitch != null and opswitch != ''">#{opswitch},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCspFlowcontrol" parameterType="CspFlowcontrol">
+        update csp_flowcontrol
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tpscount != null">tpscount = #{tpscount},</if>
+            <if test="opswitch != null and opswitch != ''">opswitch = #{opswitch},</if>
+        </trim>
+        where appid = #{appid} and txcode = #{txcode}
+    </update>
+
+    <delete id="deleteCspFlowcontrolById" parameterType="CspFlowcontrol">
+        delete from csp_flowcontrol where appid = #{appid} and txcode = #{txcode}
+    </delete>
+
+    <delete id="deleteCspFlowcontrolByIds" parameterType="CspFlowcontrol">
+        delete from csp_flowcontrol where appid = #{appid} and txcode = #{txcode}
+    </delete>
+
+</mapper>

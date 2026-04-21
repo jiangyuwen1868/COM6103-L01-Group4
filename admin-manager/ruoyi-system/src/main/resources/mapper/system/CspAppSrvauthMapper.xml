@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CspAppSrvauthMapper">
+    
+    <resultMap type="CspAppSrvauth" id="CspAppSrvauthResult">
+        <result property="appid"    column="appid"    />
+        <result property="txcode"    column="txcode"    />
+    </resultMap>
+
+    <sql id="selectCspAppSrvauthVo">
+        select appid, txcode from csp_app_srvauth
+    </sql>
+
+    <select id="selectCspAppSrvauthList" parameterType="CspAppSrvauth" resultMap="CspAppSrvauthResult">
+        <include refid="selectCspAppSrvauthVo"/>
+        <where>  
+        </where>
+    </select>
+    
+    <select id="selectCspAppSrvauthById" parameterType="String" resultMap="CspAppSrvauthResult">
+        <include refid="selectCspAppSrvauthVo"/>
+        where appid = #{appid}
+    </select>
+        
+    <insert id="insertCspAppSrvauth" parameterType="CspAppSrvauth">
+        insert into csp_app_srvauth
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="appid != null">appid,</if>
+            <if test="txcode != null">txcode,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="appid != null">#{appid},</if>
+            <if test="txcode != null">#{txcode},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCspAppSrvauth" parameterType="CspAppSrvauth">
+        update csp_app_srvauth
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="txcode != null">txcode = #{txcode},</if>
+        </trim>
+        where appid = #{appid}
+    </update>
+
+    <delete id="deleteCspAppSrvauthById" parameterType="String">
+        delete from csp_app_srvauth where appid = #{appid}
+    </delete>
+
+    <delete id="deleteCspAppSrvauthByIds" parameterType="String">
+        delete from csp_app_srvauth where appid in 
+        <foreach item="appid" collection="array" open="(" separator="," close=")">
+            #{appid}
+        </foreach>
+    </delete>
+
+</mapper>

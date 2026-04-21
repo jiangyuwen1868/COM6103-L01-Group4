@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.WaterMeterDataLogMapper">
+    
+    <resultMap type="WaterMeterDataLog" id="WaterMeterDataLogResult">
+        <result property="id"    column="id"    />
+        <result property="deviceSn"    column="device_sn"    />
+        <result property="dataType"    column="data_type"    />
+        <result property="dataValue"    column="data_value"    />
+        <result property="dataUnit"    column="data_unit"    />
+        <result property="dataTime"    column="data_time"    />
+        <result property="uploadTime"    column="upload_time"    />
+        <result property="instructionContent"    column="instruction_content"    />
+        <result property="instructionStatus"    column="instruction_status"    />
+        <result property="signalStrength"    column="signal_strength"    />
+        <result property="batteryLevel"    column="battery_level"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectWaterMeterDataLogVo">
+        select id, device_sn, data_type, data_value, data_unit, data_time, upload_time, instruction_content, instruction_status, signal_strength, battery_level, remark, create_time from water_meter_data_log
+    </sql>
+
+    <select id="selectWaterMeterDataLogList" parameterType="WaterMeterDataLog" resultMap="WaterMeterDataLogResult">
+        <include refid="selectWaterMeterDataLogVo"/>
+        <where>  
+            <if test="deviceSn != null  and deviceSn != ''"> and device_sn = #{deviceSn}</if>
+            <if test="dataType != null "> and data_type = #{dataType}</if>
+            <if test="dataValue != null  and dataValue != ''"> and data_value = #{dataValue}</if>
+            <if test="dataUnit != null  and dataUnit != ''"> and data_unit = #{dataUnit}</if>
+            <if test="dataTime != null "> and data_time = #{dataTime}</if>
+            <if test="uploadTime != null "> and upload_time = #{uploadTime}</if>
+            <if test="instructionContent != null  and instructionContent != ''"> and instruction_content = #{instructionContent}</if>
+            <if test="instructionStatus != null "> and instruction_status = #{instructionStatus}</if>
+            <if test="signalStrength != null  and signalStrength != ''"> and signal_strength = #{signalStrength}</if>
+            <if test="batteryLevel != null "> and battery_level = #{batteryLevel}</if>
+        </where>
+    </select>
+    
+    <select id="selectWaterMeterDataLogById" parameterType="String" resultMap="WaterMeterDataLogResult">
+        <include refid="selectWaterMeterDataLogVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertWaterMeterDataLog" parameterType="WaterMeterDataLog" useGeneratedKeys="true" keyProperty="id">
+        insert into water_meter_data_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceSn != null and deviceSn != ''">device_sn,</if>
+            <if test="dataType != null">data_type,</if>
+            <if test="dataValue != null and dataValue != ''">data_value,</if>
+            <if test="dataUnit != null">data_unit,</if>
+            <if test="dataTime != null">data_time,</if>
+            <if test="uploadTime != null">upload_time,</if>
+            <if test="instructionContent != null">instruction_content,</if>
+            <if test="instructionStatus != null">instruction_status,</if>
+            <if test="signalStrength != null">signal_strength,</if>
+            <if test="batteryLevel != null">battery_level,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceSn != null and deviceSn != ''">#{deviceSn},</if>
+            <if test="dataType != null">#{dataType},</if>
+            <if test="dataValue != null and dataValue != ''">#{dataValue},</if>
+            <if test="dataUnit != null">#{dataUnit},</if>
+            <if test="dataTime != null">#{dataTime},</if>
+            <if test="uploadTime != null">#{uploadTime},</if>
+            <if test="instructionContent != null">#{instructionContent},</if>
+            <if test="instructionStatus != null">#{instructionStatus},</if>
+            <if test="signalStrength != null">#{signalStrength},</if>
+            <if test="batteryLevel != null">#{batteryLevel},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWaterMeterDataLog" parameterType="WaterMeterDataLog">
+        update water_meter_data_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceSn != null and deviceSn != ''">device_sn = #{deviceSn},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+            <if test="dataValue != null and dataValue != ''">data_value = #{dataValue},</if>
+            <if test="dataUnit != null">data_unit = #{dataUnit},</if>
+            <if test="dataTime != null">data_time = #{dataTime},</if>
+            <if test="uploadTime != null">upload_time = #{uploadTime},</if>
+            <if test="instructionContent != null">instruction_content = #{instructionContent},</if>
+            <if test="instructionStatus != null">instruction_status = #{instructionStatus},</if>
+            <if test="signalStrength != null">signal_strength = #{signalStrength},</if>
+            <if test="batteryLevel != null">battery_level = #{batteryLevel},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteWaterMeterDataLogById" parameterType="String">
+        delete from water_meter_data_log where id = #{id}
+    </delete>
+
+    <delete id="deleteWaterMeterDataLogByIds" parameterType="String">
+        delete from water_meter_data_log where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

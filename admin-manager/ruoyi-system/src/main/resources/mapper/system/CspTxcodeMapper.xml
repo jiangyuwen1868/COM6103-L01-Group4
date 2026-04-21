@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CspTxcodeMapper">
+    
+    <resultMap type="CspTxcode" id="CspTxcodeResult">
+        <result property="txcode"    column="txcode"    />
+        <result property="txname"    column="txname"    />
+        <result property="txtype"    column="txtype"    />
+        <result property="isoutbound"    column="isoutbound"    />
+        <result property="ptxcode"    column="ptxcode"    />
+        <result property="groupid"    column="groupid"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectCspTxcodeVo">
+        select txcode, txname, txtype, isoutbound, ptxcode, groupid, remark from csp_txcode
+    </sql>
+
+    <select id="selectCspTxcodeList" parameterType="CspTxcode" resultMap="CspTxcodeResult">
+        <include refid="selectCspTxcodeVo"/>
+        <where>  
+            <if test="txname != null  and txname != ''"> and txname like concat('%', #{txname}, '%')</if>
+            <if test="txtype != null  and txtype != ''"> and txtype = #{txtype}</if>
+            <if test="isoutbound != null  and isoutbound != ''"> and isoutbound = #{isoutbound}</if>
+            <if test="ptxcode != null  and ptxcode != ''"> and ptxcode = #{ptxcode}</if>
+            <if test="groupid != null  and groupid != ''"> and groupid = #{groupid}</if>
+        </where>
+    </select>
+    
+    <select id="selectCspTxcodeById" parameterType="String" resultMap="CspTxcodeResult">
+        <include refid="selectCspTxcodeVo"/>
+        where txcode = #{txcode}
+    </select>
+        
+    <insert id="insertCspTxcode" parameterType="CspTxcode">
+        insert into csp_txcode
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="txcode != null">txcode,</if>
+            <if test="txname != null and txname != ''">txname,</if>
+            <if test="txtype != null and txtype != ''">txtype,</if>
+            <if test="isoutbound != null and isoutbound != ''">isoutbound,</if>
+            <if test="ptxcode != null">ptxcode,</if>
+            <if test="groupid != null and groupid != ''">groupid,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="txcode != null">#{txcode},</if>
+            <if test="txname != null and txname != ''">#{txname},</if>
+            <if test="txtype != null and txtype != ''">#{txtype},</if>
+            <if test="isoutbound != null and isoutbound != ''">#{isoutbound},</if>
+            <if test="ptxcode != null">#{ptxcode},</if>
+            <if test="groupid != null and groupid != ''">#{groupid},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCspTxcode" parameterType="CspTxcode">
+        update csp_txcode
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="txname != null and txname != ''">txname = #{txname},</if>
+            <if test="txtype != null and txtype != ''">txtype = #{txtype},</if>
+            <if test="isoutbound != null and isoutbound != ''">isoutbound = #{isoutbound},</if>
+            <if test="ptxcode != null">ptxcode = #{ptxcode},</if>
+            <if test="groupid != null and groupid != ''">groupid = #{groupid},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where txcode = #{txcode}
+    </update>
+
+    <delete id="deleteCspTxcodeById" parameterType="String">
+        delete from csp_txcode where txcode = #{txcode}
+    </delete>
+
+    <delete id="deleteCspTxcodeByIds" parameterType="String">
+        delete from csp_txcode where txcode in 
+        <foreach item="txcode" collection="array" open="(" separator="," close=")">
+            #{txcode}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,43 @@
+spring:
+  shardingsphere:
+    datasource:
+      names: ds
+      ds:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://47.115.53.79:3306/test2?serverTimezone=UTC&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false&useServerPrepStmts=false&rewriteBatchedStatements=true
+        username: jiangyw
+        password: JIANGYuwen1868
+    rules:
+      encrypt:
+        encryptors:
+          encryptor_aes:
+            type: AES
+            props:
+              aes-key-value: hkiqAXU6Ur5fixGHaO4Lb2V2ggausYwW
+        tables:
+          sys_user:
+            columns:
+              user_name:
+                cipher-column: user_name
+                encryptor-name: encryptor_aes
+              email:
+                cipher-column: email
+                encryptor-name: encryptor_aes
+              phonenumber:
+                cipher-column: phonenumber
+                assisted-query-column: phonenumber_like
+                encryptor-name: encryptor_aes
+          water_meter_device:
+            columns:
+              user_name:
+                cipher-column: user_name
+                encryptor-name: encryptor_aes
+              user_phone:
+                cipher-column: user_phone
+                encryptor-name: encryptor_aes
+              user_id_card:
+                cipher-column: user_id_card
+                encryptor-name: encryptor_aes
+    props:
+      sql-show: false

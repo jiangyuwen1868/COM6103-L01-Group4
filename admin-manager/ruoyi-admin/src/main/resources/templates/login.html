@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html  lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Login to IoT Smart Water Meter Management System
+</title>
+    <meta name="description" content="Water Meter Management System">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link href="../static/css/login.min.css" th:href="@{/css/login.min.css}" rel="stylesheet"/>
+    <link href="../static/ruoyi/css/ry-ui.css" th:href="@{/ruoyi/css/ry-ui.css?v=4.6.0}" rel="stylesheet"/>
+    <!-- 360 browser speed mode -->
+    <meta name="renderer" content="webkit">
+    <!-- Avoid IE compatibility mode -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="../static/favicon.ico" th:href="@{favicon.ico}"/>
+    <style type="text/css">label.error { position:inherit;  }</style>
+    <script>
+        if(window.top!==window.self){alert('Not logged in or session expired. Please login again');window.top.location=window.location};
+    </script>
+</head>
+<body class="signin">
+    <div class="signinpanel">
+        <div class="row">
+            <div class="col-sm-7">
+                <div class="signin-info">
+                    
+                    <div class="m-b"></div>
+                    <strong th:if="${@config.getKey('sys.account.registerUser')}">Don't have an account? <a th:href="@{/register}">Register Now&raquo;</a></strong>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <form id="signupForm" autocomplete="off">
+                    <h4 class="no-margins">Login:</h4>
+                    <p class="m-t-md"></p>
+                    <input type="text"     name="username" class="form-control uname"     placeholder="Username" value=""    />
+                    <input type="password" id="password" name="password" class="form-control pword"     placeholder="Password"   value="" />
+					<div class="row m-t" th:if="${captchaEnabled==true}">
+						<div class="col-xs-6">
+						    <input type="text" name="validateCode" class="form-control code" placeholder="Captcha" maxlength="5" />
+						</div>
+						<div class="col-xs-6">
+							<a href="javascript:void(0);" title="Click to refresh captcha">
+								<img th:src="@{captcha/captchaImage(type=${captchaType})}" class="imgcode" width="85%"/>
+							</a>
+						</div>
+					</div>
+                    <div class="checkbox-custom" th:classappend="${captchaEnabled==false} ? 'm-t'">
+			        <input type="checkbox" id="rememberme" name="rememberme"> <label for="rememberme">Remember Me</label>
+			    </div>
+                    <button class="btn btn-success btn-block" id="btnSubmit" data-loading="Verifying login, please wait...">Login</button>
+                </form>
+            </div>
+        </div>
+        <div class="signup-footer">
+            <div class="pull-left">
+            </div>
+        </div>
+    </div>
+<script th:inline="javascript"> var ctx = [[@{/}]]; var captchaType = [[${captchaType}]]; </script>
+<!-- Global JS -->
+<script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<!-- Validation Plugin -->
+<script src="../static/ajax/libs/validate/jquery.validate.min.js" th:src="@{/ajax/libs/validate/jquery.validate.min.js}"></script>
+<script src="../static/ajax/libs/validate/messages_en.min.js" th:src="@{/ajax/libs/validate/messages_en.min.js}"></script>
+<script src="../static/ajax/libs/layer/layer.min.js" th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+<script src="../static/ajax/libs/blockUI/jquery.blockUI.js" th:src="@{/ajax/libs/blockUI/jquery.blockUI.js}"></script>
+<script src="../static/ruoyi/js/ry-ui.js" th:src="@{/ruoyi/js/ry-ui.js?v=4.6.0}"></script>
+<script src="../static/ruoyi/login.js" th:src="@{/ruoyi/login.js}"></script>
+<script src="../static/js/utils/sm2.js" th:src="@{/js/utils/sm2.js}"></script>
+<script src="../static/js/utils/sm3.js" th:src="@{/js/utils/sm3.js}"></script>
+<script src="../static/js/utils/sm4.js" th:src="@{/js/utils/sm4.js}"></script>
+<script src="../static/js/utils/cryptoSdk.js" th:src="@{/js/utils/cryptoSdk.js}"></script>
+<script>
+	function encryptedPassword() {
+	        let password = $('#password').val();
+	        var TranText = pinEncrypt(password);
+	        try {
+	            var jsonobj = eval('(' + TranText + ')');
+	            var jsoncode = jsonobj.code;
+	            var jsonmsg = jsonobj.msg;
+	            var jsondata = jsonobj.data;
+	            if (jsoncode != 0) {
+	                layer.msg("错误码:" + jsoncode + ",错误信息:" + jsonmsg);
+	                return false;
+	            }
+	            var encryptKey = JSON.stringify(jsondata);
+	            $('#password').val(encryptKey);
+	        } catch (e) {
+	            layer.msg(e);
+	        }
+	    }
+</script>
+</body>
+</html>

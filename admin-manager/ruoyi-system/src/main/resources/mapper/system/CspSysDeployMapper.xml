@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CspSysDeployMapper">
+    
+    <resultMap type="CspSysDeploy" id="CspSysDeployResult">
+        <result property="groupid"    column="groupid"    />
+        <result property="deployid"    column="deployid"    />
+        <result property="hostname"    column="hostname"    />
+        <result property="username"    column="username"    />
+        <result property="deploycode"    column="deploycode"    />
+        <result property="appcode"    column="appcode"    />
+        <result property="sysip"    column="sysip"    />
+        <result property="sysport"    column="sysport"    />
+        <result property="servaddr"    column="servaddr"    />
+        <result property="isuseful"    column="isuseful"    />
+        <result property="weight"    column="weight"    />
+        <result property="remark"    column="remark"    />
+        <result property="centerid"    column="centerid"    />
+    </resultMap>
+
+    <sql id="selectCspSysDeployVo">
+        select groupid, deployid, hostname, username, deploycode, appcode, sysip, sysport, servaddr, isuseful, weight, remark, centerid from csp_sys_deploy
+    </sql>
+
+    <select id="selectCspSysDeployList" parameterType="CspSysDeploy" resultMap="CspSysDeployResult">
+        <include refid="selectCspSysDeployVo"/>
+        <where>  
+            <if test="hostname != null  and hostname != ''"> and hostname like concat('%', #{hostname}, '%')</if>
+            <if test="username != null  and username != ''"> and username like concat('%', #{username}, '%')</if>
+            <if test="deploycode != null  and deploycode != ''"> and deploycode = #{deploycode}</if>
+            <if test="appcode != null  and appcode != ''"> and appcode = #{appcode}</if>
+            <if test="sysip != null  and sysip != ''"> and sysip = #{sysip}</if>
+            <if test="sysport != null "> and sysport = #{sysport}</if>
+            <if test="servaddr != null  and servaddr != ''"> and servaddr = #{servaddr}</if>
+            <if test="isuseful != null  and isuseful != ''"> and isuseful = #{isuseful}</if>
+            <if test="weight != null "> and weight = #{weight}</if>
+            <if test="centerid != null  and centerid != ''"> and centerid = #{centerid}</if>
+        </where>
+    </select>
+    
+    <select id="selectCspSysDeployById" parameterType="String" resultMap="CspSysDeployResult">
+        <include refid="selectCspSysDeployVo"/>
+        where groupid = #{groupid}
+    </select>
+        
+    <insert id="insertCspSysDeploy" parameterType="CspSysDeploy">
+        insert into csp_sys_deploy
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="groupid != null">groupid,</if>
+            <if test="deployid != null">deployid,</if>
+            <if test="hostname != null and hostname != ''">hostname,</if>
+            <if test="username != null">username,</if>
+            <if test="deploycode != null">deploycode,</if>
+            <if test="appcode != null">appcode,</if>
+            <if test="sysip != null and sysip != ''">sysip,</if>
+            <if test="sysport != null">sysport,</if>
+            <if test="servaddr != null and servaddr != ''">servaddr,</if>
+            <if test="isuseful != null and isuseful != ''">isuseful,</if>
+            <if test="weight != null">weight,</if>
+            <if test="remark != null">remark,</if>
+            <if test="centerid != null">centerid,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="groupid != null">#{groupid},</if>
+            <if test="deployid != null">#{deployid},</if>
+            <if test="hostname != null and hostname != ''">#{hostname},</if>
+            <if test="username != null">#{username},</if>
+            <if test="deploycode != null">#{deploycode},</if>
+            <if test="appcode != null">#{appcode},</if>
+            <if test="sysip != null and sysip != ''">#{sysip},</if>
+            <if test="sysport != null">#{sysport},</if>
+            <if test="servaddr != null and servaddr != ''">#{servaddr},</if>
+            <if test="isuseful != null and isuseful != ''">#{isuseful},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="centerid != null">#{centerid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCspSysDeploy" parameterType="CspSysDeploy">
+        update csp_sys_deploy
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deployid != null">deployid = #{deployid},</if>
+            <if test="hostname != null and hostname != ''">hostname = #{hostname},</if>
+            <if test="username != null">username = #{username},</if>
+            <if test="deploycode != null">deploycode = #{deploycode},</if>
+            <if test="appcode != null">appcode = #{appcode},</if>
+            <if test="sysip != null and sysip != ''">sysip = #{sysip},</if>
+            <if test="sysport != null">sysport = #{sysport},</if>
+            <if test="servaddr != null and servaddr != ''">servaddr = #{servaddr},</if>
+            <if test="isuseful != null and isuseful != ''">isuseful = #{isuseful},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="centerid != null">centerid = #{centerid},</if>
+        </trim>
+        where groupid = #{groupid}
+    </update>
+
+    <delete id="deleteCspSysDeployById" parameterType="String">
+        delete from csp_sys_deploy where groupid = #{groupid}
+    </delete>
+
+    <delete id="deleteCspSysDeployByIds" parameterType="String">
+        delete from csp_sys_deploy where groupid in 
+        <foreach item="groupid" collection="array" open="(" separator="," close=")">
+            #{groupid}
+        </foreach>
+    </delete>
+
+</mapper>

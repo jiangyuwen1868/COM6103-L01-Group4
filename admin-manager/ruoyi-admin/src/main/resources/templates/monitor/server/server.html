@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('Server Monitor')" />
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>CPU</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="close-link"><i class="fa fa-times"></i></a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <table class="table table-hover no-margins">
+                                <thead>
+                                    <tr>
+                                        <th>Property</th>
+                                        <th>Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Cores</td>
+                                        <td th:text="${server.cpu.cpuNum}">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>User Usage</td>
+                                        <td th:text="${server.cpu.used + '%'}">0%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>System Usage</td>
+                                        <td th:text="${server.cpu.sys + '%'}">0%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Current Idle</td>
+                                        <td th:text="${server.cpu.free + '%'}">0%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-sm-6">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Memory</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                <a class="close-link"><i class="fa fa-times"></i></a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <table class="table table-hover no-margins">
+                                <thead>
+                                    <tr>
+                                        <th>Property</th>
+                                        <th>Memory</th>
+                                        <th>JVM</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Total</td>
+                                        <td th:text="${server.mem.total + 'G'}">0GB</td>
+                                        <td th:text="${server.jvm.total + 'M'}">0MB</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Used</td>
+                                        <td th:text="${server.mem.used + 'G'}">0GB</td>
+                                        <td th:text="${server.jvm.used + 'M'}">0MB</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Free</td>
+                                        <td th:text="${server.mem.free + 'G'}">0GB</td>
+                                        <td th:text="${server.jvm.free + 'M'}">0MB</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Usage</td>
+                                        <td th:class="${server.mem.usage gt 80} ? 'text-danger'">[[${server.mem.usage}]]%</td>
+                                        <td th:class="${server.jvm.usage gt 80} ? 'text-danger'">[[${server.jvm.usage}]]%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Server Information</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table class="table table-hover margin bottom">
+                                        <tbody>
+                                            <tr>
+                                                <td>Server Name</td>
+                                                <td th:text="${server.sys.computerName}">RuoYi</td>
+                                                <td>Operating System</td>
+                                                <td th:text="${server.sys.osName}">Linux</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Server IP</td>
+                                                <td th:text="${server.sys.computerIp}">127.0.0.1</td>
+                                                <td>System Architecture</td>
+                                                <td th:text="${server.sys.osArch}">amd64</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Java Virtual Machine</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table class="table table-hover margin bottom">
+                                        <tbody>
+                                            <tr>
+                                                <td>Java Name</td>
+                                                <td th:text="${server.jvm.name}">Java</td>
+                                                <td>Java Version</td>
+                                                <td th:text="${server.jvm.version}">1.8.0</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Start Time</td>
+                                                <td th:text="${server.jvm.startTime}">2018-12-31 00:00:00</td>
+                                                <td>Run Time</td>
+                                                <td th:text="${server.jvm.runTime}">0d 0h 0m 0s</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="1">Installation Path</td>
+                                                <td colspan="3" th:text="${server.jvm.home}"></td>
+                                            </tr>
+                                             <tr>
+                                                <td colspan="1">Project Path</td>
+                                                <td colspan="3" th:text="${server.sys.userDir}"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Disk Status</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table class="table table-hover margin bottom">
+                                        <thead>
+                                            <tr>
+                                                <th>Drive Path</th>
+                                                <th>File System</th>
+                                                <th>Drive Type</th>
+                                                <th>Total Size</th>
+                                                <th>Free Size</th>
+                                                <th>Used Size</th>
+                                                <th>Used Percentage</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="sysFile : ${server.sysFiles}">
+                                                <td th:text="${sysFile.dirName}">C:\</td>
+                                                <td th:text="${sysFile.sysTypeName}">NTFS</td>
+                                                <td th:text="${sysFile.typeName}">local</td>
+                                                <td th:text="${sysFile.total}">0GB</td>
+                                                <td th:text="${sysFile.free}">0GB</td>
+                                                <td th:text="${sysFile.used}">0GB</td>
+                                                <td th:class="${sysFile.usage gt 80} ? 'text-danger'">[[${sysFile.usage}]]%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<th:block th:include="include :: footer" />
+<script>
+    $(".modal").appendTo("body"), $("[data-toggle=popover]").popover(), $(".collapse-link").click(function() {
+        var div_ibox = $(this).closest("div.ibox"),
+        e = $(this).find("i"),
+        i = div_ibox.find("div.ibox-content");
+        i.slideToggle(200),
+        e.toggleClass("fa-chevron-up").toggleClass("fa-chevron-down"),
+        div_ibox.toggleClass("").toggleClass("border-bottom"),
+        setTimeout(function() {
+        	div_ibox.resize();
+        }, 50);
+    }), $(".close-link").click(function () {
+		var div_ibox = $(this).closest("div.ibox");
+		div_ibox.remove()
+	});
+</script>
+</html>

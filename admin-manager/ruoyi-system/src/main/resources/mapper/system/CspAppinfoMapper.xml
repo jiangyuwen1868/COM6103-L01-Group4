@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CspAppinfoMapper">
+    
+    <resultMap type="CspAppinfo" id="CspAppinfoResult">
+        <result property="appid"    column="appid"    />
+        <result property="appname"    column="appname"    />
+        <result property="appsecret"    column="appsecret"    />
+        <result property="tenantid"    column="tenantid"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="authtype"    column="authtype"    />
+        <result property="appstatus"    column="appstatus"    />
+        <result property="hsmgroups"    column="hsmgroups"    />
+        <result property="srvgroups"    column="srvgroups"    />
+        <result property="creator"    column="creator"    />
+        <result property="creattime"    column="creattime"    />
+        <result property="appdesc"    column="appdesc"    />
+        <result property="secretrating"    column="secretrating"    />
+        <result property="secretdate"    column="secretdate"    />
+        <result property="appVk"    column="app_vk"    />
+        <result property="appPk"    column="app_pk"    />
+    </resultMap>
+
+    <sql id="selectCspAppinfoVo">
+        select appid, appname, appsecret, tenantid, dept_id, user_id, authtype, appstatus, hsmgroups, srvgroups, creator, creattime, appdesc, secretrating, secretdate, app_vk, app_pk from csp_appinfo
+    </sql>
+
+    <select id="selectCspAppinfoList" parameterType="CspAppinfo" resultMap="CspAppinfoResult">
+        <include refid="selectCspAppinfoVo"/>
+        <where>  
+            <if test="appname != null  and appname != ''"> and appname like concat('%', #{appname}, '%')</if>
+            <if test="appsecret != null  and appsecret != ''"> and appsecret = #{appsecret}</if>
+            <if test="tenantid != null  and tenantid != ''"> and tenantid = #{tenantid}</if>
+            <if test="deptId != null "> and dept_id = #{deptId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="authtype != null  and authtype != ''"> and authtype = #{authtype}</if>
+            <if test="appstatus != null  and appstatus != ''"> and appstatus = #{appstatus}</if>
+            <if test="hsmgroups != null  and hsmgroups != ''"> and hsmgroups = #{hsmgroups}</if>
+            <if test="srvgroups != null  and srvgroups != ''"> and srvgroups = #{srvgroups}</if>
+            <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+            <if test="creattime != null "> and creattime = #{creattime}</if>
+            <if test="appdesc != null  and appdesc != ''"> and appdesc = #{appdesc}</if>
+            <if test="secretrating != null  and secretrating != ''"> and secretrating = #{secretrating}</if>
+            <if test="secretdate != null "> and secretdate = #{secretdate}</if>
+            <if test="appVk != null  and appVk != ''"> and app_vk = #{appVk}</if>
+            <if test="appPk != null  and appPk != ''"> and app_pk = #{appPk}</if>
+        </where>
+    </select>
+    
+    <select id="selectCspAppinfoById" parameterType="String" resultMap="CspAppinfoResult">
+        <include refid="selectCspAppinfoVo"/>
+        where appid = #{appid}
+    </select>
+        
+    <insert id="insertCspAppinfo" parameterType="CspAppinfo">
+        insert into csp_appinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="appid != null">appid,</if>
+            <if test="appname != null and appname != ''">appname,</if>
+            <if test="appsecret != null">appsecret,</if>
+            <if test="tenantid != null">tenantid,</if>
+            <if test="deptId != null">dept_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="authtype != null and authtype != ''">authtype,</if>
+            <if test="appstatus != null and appstatus != ''">appstatus,</if>
+            <if test="hsmgroups != null and hsmgroups != ''">hsmgroups,</if>
+            <if test="srvgroups != null">srvgroups,</if>
+            <if test="creator != null and creator != ''">creator,</if>
+            <if test="creattime != null">creattime,</if>
+            <if test="appdesc != null">appdesc,</if>
+            <if test="secretrating != null">secretrating,</if>
+            <if test="secretdate != null">secretdate,</if>
+            <if test="appVk != null">app_vk,</if>
+            <if test="appPk != null">app_pk,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="appid != null">#{appid},</if>
+            <if test="appname != null and appname != ''">#{appname},</if>
+            <if test="appsecret != null">#{appsecret},</if>
+            <if test="tenantid != null">#{tenantid},</if>
+            <if test="deptId != null">#{deptId},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="authtype != null and authtype != ''">#{authtype},</if>
+            <if test="appstatus != null and appstatus != ''">#{appstatus},</if>
+            <if test="hsmgroups != null and hsmgroups != ''">#{hsmgroups},</if>
+            <if test="srvgroups != null">#{srvgroups},</if>
+            <if test="creator != null and creator != ''">#{creator},</if>
+            <if test="creattime != null">#{creattime},</if>
+            <if test="appdesc != null">#{appdesc},</if>
+            <if test="secretrating != null">#{secretrating},</if>
+            <if test="secretdate != null">#{secretdate},</if>
+            <if test="appVk != null">#{appVk},</if>
+            <if test="appPk != null">#{appPk},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCspAppinfo" parameterType="CspAppinfo">
+        update csp_appinfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="appname != null and appname != ''">appname = #{appname},</if>
+            <if test="appsecret != null">appsecret = #{appsecret},</if>
+            <if test="tenantid != null">tenantid = #{tenantid},</if>
+            <if test="deptId != null">dept_id = #{deptId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="authtype != null and authtype != ''">authtype = #{authtype},</if>
+            <if test="appstatus != null and appstatus != ''">appstatus = #{appstatus},</if>
+            <if test="hsmgroups != null and hsmgroups != ''">hsmgroups = #{hsmgroups},</if>
+            <if test="srvgroups != null">srvgroups = #{srvgroups},</if>
+            <if test="creator != null and creator != ''">creator = #{creator},</if>
+            <if test="creattime != null">creattime = #{creattime},</if>
+            <if test="appdesc != null">appdesc = #{appdesc},</if>
+            <if test="secretrating != null">secretrating = #{secretrating},</if>
+            <if test="secretdate != null">secretdate = #{secretdate},</if>
+            <if test="appVk != null">app_vk = #{appVk},</if>
+            <if test="appPk != null">app_pk = #{appPk},</if>
+        </trim>
+        where appid = #{appid}
+    </update>
+
+    <delete id="deleteCspAppinfoById" parameterType="String">
+        delete from csp_appinfo where appid = #{appid}
+    </delete>
+
+    <delete id="deleteCspAppinfoByIds" parameterType="String">
+        delete from csp_appinfo where appid in 
+        <foreach item="appid" collection="array" open="(" separator="," close=")">
+            #{appid}
+        </foreach>
+    </delete>
+
+</mapper>

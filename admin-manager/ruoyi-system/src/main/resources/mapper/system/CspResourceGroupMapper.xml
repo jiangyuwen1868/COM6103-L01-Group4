@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CspResourceGroupMapper">
+    
+    <resultMap type="CspResourceGroup" id="CspResourceGroupResult">
+        <result property="groupid"    column="groupid"    />
+        <result property="reqmethod"    column="reqmethod"    />
+        <result property="contenttype"    column="contenttype"    />
+        <result property="conntimeout"    column="conntimeout"    />
+        <result property="sotimeout"    column="sotimeout"    />
+        <result property="connmaxsize"    column="connmaxsize"    />
+        <result property="heartinteval"    column="heartinteval"    />
+        <result property="lbstrategy"    column="lbstrategy"    />
+        <result property="isbalance"    column="isbalance"    />
+        <result property="isuseproxyauthor"    column="isuseproxyauthor"    />
+        <result property="proxyip"    column="proxyip"    />
+        <result property="proxyport"    column="proxyport"    />
+        <result property="proxyusername"    column="proxyusername"    />
+        <result property="proxyuserpass"    column="proxyuserpass"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectCspResourceGroupVo">
+        select groupid, reqmethod, contenttype, conntimeout, sotimeout, connmaxsize, heartinteval, lbstrategy, isbalance, isuseproxyauthor, proxyip, proxyport, proxyusername, proxyuserpass, remark from csp_resource_group
+    </sql>
+
+    <select id="selectCspResourceGroupList" parameterType="CspResourceGroup" resultMap="CspResourceGroupResult">
+        <include refid="selectCspResourceGroupVo"/>
+        <where>  
+            <if test="reqmethod != null  and reqmethod != ''"> and reqmethod = #{reqmethod}</if>
+            <if test="contenttype != null  and contenttype != ''"> and contenttype = #{contenttype}</if>
+            <if test="conntimeout != null "> and conntimeout = #{conntimeout}</if>
+            <if test="sotimeout != null "> and sotimeout = #{sotimeout}</if>
+            <if test="connmaxsize != null "> and connmaxsize = #{connmaxsize}</if>
+            <if test="heartinteval != null "> and heartinteval = #{heartinteval}</if>
+            <if test="lbstrategy != null  and lbstrategy != ''"> and lbstrategy = #{lbstrategy}</if>
+            <if test="isbalance != null  and isbalance != ''"> and isbalance = #{isbalance}</if>
+            <if test="isuseproxyauthor != null  and isuseproxyauthor != ''"> and isuseproxyauthor = #{isuseproxyauthor}</if>
+            <if test="proxyip != null  and proxyip != ''"> and proxyip = #{proxyip}</if>
+            <if test="proxyport != null "> and proxyport = #{proxyport}</if>
+            <if test="proxyusername != null  and proxyusername != ''"> and proxyusername like concat('%', #{proxyusername}, '%')</if>
+            <if test="proxyuserpass != null  and proxyuserpass != ''"> and proxyuserpass = #{proxyuserpass}</if>
+        </where>
+    </select>
+    
+    <select id="selectCspResourceGroupById" parameterType="String" resultMap="CspResourceGroupResult">
+        <include refid="selectCspResourceGroupVo"/>
+        where groupid = #{groupid}
+    </select>
+        
+    <insert id="insertCspResourceGroup" parameterType="CspResourceGroup">
+        insert into csp_resource_group
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="groupid != null">groupid,</if>
+            <if test="reqmethod != null and reqmethod != ''">reqmethod,</if>
+            <if test="contenttype != null and contenttype != ''">contenttype,</if>
+            <if test="conntimeout != null">conntimeout,</if>
+            <if test="sotimeout != null">sotimeout,</if>
+            <if test="connmaxsize != null">connmaxsize,</if>
+            <if test="heartinteval != null">heartinteval,</if>
+            <if test="lbstrategy != null and lbstrategy != ''">lbstrategy,</if>
+            <if test="isbalance != null and isbalance != ''">isbalance,</if>
+            <if test="isuseproxyauthor != null and isuseproxyauthor != ''">isuseproxyauthor,</if>
+            <if test="proxyip != null">proxyip,</if>
+            <if test="proxyport != null">proxyport,</if>
+            <if test="proxyusername != null">proxyusername,</if>
+            <if test="proxyuserpass != null">proxyuserpass,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="groupid != null">#{groupid},</if>
+            <if test="reqmethod != null and reqmethod != ''">#{reqmethod},</if>
+            <if test="contenttype != null and contenttype != ''">#{contenttype},</if>
+            <if test="conntimeout != null">#{conntimeout},</if>
+            <if test="sotimeout != null">#{sotimeout},</if>
+            <if test="connmaxsize != null">#{connmaxsize},</if>
+            <if test="heartinteval != null">#{heartinteval},</if>
+            <if test="lbstrategy != null and lbstrategy != ''">#{lbstrategy},</if>
+            <if test="isbalance != null and isbalance != ''">#{isbalance},</if>
+            <if test="isuseproxyauthor != null and isuseproxyauthor != ''">#{isuseproxyauthor},</if>
+            <if test="proxyip != null">#{proxyip},</if>
+            <if test="proxyport != null">#{proxyport},</if>
+            <if test="proxyusername != null">#{proxyusername},</if>
+            <if test="proxyuserpass != null">#{proxyuserpass},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCspResourceGroup" parameterType="CspResourceGroup">
+        update csp_resource_group
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="reqmethod != null and reqmethod != ''">reqmethod = #{reqmethod},</if>
+            <if test="contenttype != null and contenttype != ''">contenttype = #{contenttype},</if>
+            <if test="conntimeout != null">conntimeout = #{conntimeout},</if>
+            <if test="sotimeout != null">sotimeout = #{sotimeout},</if>
+            <if test="connmaxsize != null">connmaxsize = #{connmaxsize},</if>
+            <if test="heartinteval != null">heartinteval = #{heartinteval},</if>
+            <if test="lbstrategy != null and lbstrategy != ''">lbstrategy = #{lbstrategy},</if>
+            <if test="isbalance != null and isbalance != ''">isbalance = #{isbalance},</if>
+            <if test="isuseproxyauthor != null and isuseproxyauthor != ''">isuseproxyauthor = #{isuseproxyauthor},</if>
+            <if test="proxyip != null">proxyip = #{proxyip},</if>
+            <if test="proxyport != null">proxyport = #{proxyport},</if>
+            <if test="proxyusername != null">proxyusername = #{proxyusername},</if>
+            <if test="proxyuserpass != null">proxyuserpass = #{proxyuserpass},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where groupid = #{groupid}
+    </update>
+
+    <delete id="deleteCspResourceGroupById" parameterType="String">
+        delete from csp_resource_group where groupid = #{groupid}
+    </delete>
+
+    <delete id="deleteCspResourceGroupByIds" parameterType="String">
+        delete from csp_resource_group where groupid in 
+        <foreach item="groupid" collection="array" open="(" separator="," close=")">
+            #{groupid}
+        </foreach>
+    </delete>
+
+</mapper>

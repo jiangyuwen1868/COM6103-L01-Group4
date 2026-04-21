@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CspErrorinfoMapper">
+    
+    <resultMap type="CspErrorinfo" id="CspErrorinfoResult">
+        <result property="errorcode"    column="errorcode"    />
+        <result property="errortype"    column="errortype"    />
+        <result property="errormsg"    column="errormsg"    />
+        <result property="isconv"    column="isconv"    />
+        <result property="remark"    column="remark"    />
+        <result property="convertmsg"    column="convertmsg"    />
+    </resultMap>
+
+    <sql id="selectCspErrorinfoVo">
+        select errorcode, errortype, errormsg, isconv, remark, convertmsg from csp_errorinfo
+    </sql>
+
+    <select id="selectCspErrorinfoList" parameterType="CspErrorinfo" resultMap="CspErrorinfoResult">
+        <include refid="selectCspErrorinfoVo"/>
+        <where>  
+            <if test="errortype != null  and errortype != ''"> and errortype = #{errortype}</if>
+            <if test="errormsg != null  and errormsg != ''"> and errormsg = #{errormsg}</if>
+            <if test="isconv != null  and isconv != ''"> and isconv = #{isconv}</if>
+            <if test="convertmsg != null  and convertmsg != ''"> and convertmsg = #{convertmsg}</if>
+        </where>
+    </select>
+    
+    <select id="selectCspErrorinfoById" parameterType="String" resultMap="CspErrorinfoResult">
+        <include refid="selectCspErrorinfoVo"/>
+        where errorcode = #{errorcode}
+    </select>
+        
+    <insert id="insertCspErrorinfo" parameterType="CspErrorinfo">
+        insert into csp_errorinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="errorcode != null">errorcode,</if>
+            <if test="errortype != null and errortype != ''">errortype,</if>
+            <if test="errormsg != null and errormsg != ''">errormsg,</if>
+            <if test="isconv != null and isconv != ''">isconv,</if>
+            <if test="remark != null">remark,</if>
+            <if test="convertmsg != null">convertmsg,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="errorcode != null">#{errorcode},</if>
+            <if test="errortype != null and errortype != ''">#{errortype},</if>
+            <if test="errormsg != null and errormsg != ''">#{errormsg},</if>
+            <if test="isconv != null and isconv != ''">#{isconv},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="convertmsg != null">#{convertmsg},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCspErrorinfo" parameterType="CspErrorinfo">
+        update csp_errorinfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="errortype != null and errortype != ''">errortype = #{errortype},</if>
+            <if test="errormsg != null and errormsg != ''">errormsg = #{errormsg},</if>
+            <if test="isconv != null and isconv != ''">isconv = #{isconv},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="convertmsg != null">convertmsg = #{convertmsg},</if>
+        </trim>
+        where errorcode = #{errorcode}
+    </update>
+
+    <delete id="deleteCspErrorinfoById" parameterType="String">
+        delete from csp_errorinfo where errorcode = #{errorcode}
+    </delete>
+
+    <delete id="deleteCspErrorinfoByIds" parameterType="String">
+        delete from csp_errorinfo where errorcode in 
+        <foreach item="errorcode" collection="array" open="(" separator="," close=")">
+            #{errorcode}
+        </foreach>
+    </delete>
+
+</mapper>

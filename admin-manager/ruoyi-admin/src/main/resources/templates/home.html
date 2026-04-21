@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Meter Device Dashboard</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link href="../static/css/main/animate.min.css" th:href="@{/css/main/animate.min.css}" rel="stylesheet"/>
+    <link href="../static/css/main/style.min862f.css" th:href="@{/css/main/style.min862f.css}" rel="stylesheet"/>
+    <link href="../static/css/chart/demo.css" th:href="@{/css/chart/demo.css}" rel="stylesheet" type="text/css" />
+    <link href="../static/css/chart/jqbar.css" th:href="@{/css/chart/jqbar.css}" rel="stylesheet" />
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <!-- 设备总数 -->
+            <div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <span class="label label-success pull-right">Total</span>
+                        <h5>Total Devices</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 id="totalDevices" class="no-margins">0</h1>
+                    </div>
+                </div>
+            </div>
+            <!-- 正常运行设备数 -->
+            <div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <span class="label label-primary pull-right">Status</span>
+                        <h5>Normal Devices</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 id="normalDevices" class="no-margins">0</h1>
+                    </div>
+                </div>
+            </div>
+            <!-- 故障设备数 -->
+            <div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <span class="label label-danger pull-right">Status</span>
+                        <h5>Faulty Devices</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 id="faultyDevices" class="no-margins">0</h1>
+                    </div>
+                </div>
+            </div>
+            <!-- 未激活设备数 -->
+            <div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <span class="label label-warning pull-right">Status</span>
+                        <h5>Unactivated Devices</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 id="unactivatedDevices" class="no-margins">0</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <!-- 设备状态分布 -->
+            <div class="col-sm-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Device Status Distribution</h5>
+                        <div class="ibox-tools">
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div id="statusDistribution">
+                            <div class="bars">
+                                <div id="bar-status-0"></div>
+                                <div id="bar-status-1"></div>
+                                <div id="bar-status-2"></div>
+                                <div id="bar-status-3"></div>
+                                <div id="bar-status-4"></div>
+                                <div id="bar-status-5"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 设备类型分布 -->
+            <div class="col-sm-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Device Type Distribution</h5>
+                        <div class="ibox-tools">
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div id="typeDistribution">
+                            <div class="bars">
+                                <div id="bar-type-1"></div>
+                                <div id="bar-type-2"></div>
+                                <div id="bar-type-3"></div>
+                                <div id="bar-type-4"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <!-- 设备用水量统计 -->
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Water Usage Statistics</h5>
+                        <div class="ibox-tools">
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div id="waterUsage">
+                            <div class="bars">
+                                <div id="bar-usage-total"></div>
+                                <div id="bar-usage-average"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/jquery-ui-1.10.4.min.js?v=4.6.0}"></script>
+    <script th:src="@{/ajax/libs/flot/jquery.flot.js}"></script>
+    <script th:src="@{/js/chart/jqbar.js}"></script>    <!-- 验证插件 -->
+    <script src="../static/ajax/libs/validate/jquery.validate.min.js" th:src="@{/ajax/libs/validate/jquery.validate.min.js}"></script>
+    <script src="../static/ajax/libs/validate/messages_zh.min.js" th:src="@{/ajax/libs/validate/messages_zh.min.js}"></script>
+    <script src="../static/ajax/libs/layer/layer.min.js" th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+    <script src="../static/ajax/libs/blockUI/jquery.blockUI.js" th:src="@{/ajax/libs/blockUI/jquery.blockUI.js}"></script>
+    <script src="../static/ruoyi/js/ry-ui.js" th:src="@{/ruoyi/js/ry-ui.js?v=4.6.0}"></script>
+    <script src="../static/ruoyi/js/common.js" th:src="@{/ruoyi/js/common.js?v=4.6.0}"></script>
+    <th:block th:include="include :: sparkline-js" />
+    <script th:inline="javascript">
+        $(function(){
+            var ctx = [[@{/}]];
+            var prefix = ctx + "system/device";
+            var statusColors = ['#939393', '#88bbc8', '#D64747', '#FF681F', '#ea805c', '#3a89c9'];
+            var typeColors = ['#88bbc8', '#D64747', '#FF681F', '#3a89c9'];
+            
+            // 获取设备总数
+            $.operate.ajaxpost(prefix + "/getTotalDevices", {}, function(ret){
+                if(ret && ret.data){
+                    $("#totalDevices").html(ret.data);
+                }
+            });
+            
+            // 获取正常运行设备数
+            $.operate.ajaxpost(prefix + "/getNormalDevices", {}, function(ret){
+                if(ret && ret.data){
+                    $("#normalDevices").html(ret.data);
+                }
+            });
+            
+            // 获取故障设备数
+            $.operate.ajaxpost(prefix + "/getFaultyDevices", {}, function(ret){
+                if(ret && ret.data){
+                    $("#faultyDevices").html(ret.data);
+                }
+            });
+            
+            // 获取未激活设备数
+            $.operate.ajaxpost(prefix + "/getUnactivatedDevices", {}, function(ret){
+                if(ret && ret.data){
+                    $("#unactivatedDevices").html(ret.data);
+                }
+            });
+            
+            // 获取设备状态分布
+            $.operate.ajaxpost(prefix + "/getStatusDistribution", {}, function(ret){
+                if(ret && ret.data){
+                    var statusMap = {
+                        0: 'Unactivated',
+                        1: 'Normal',
+                        2: 'Faulty',
+                        3: 'Arrears',
+                        4: 'Removed',
+                        5: 'Maintenance'
+                    };
+                    // 计算最大值
+                    var maxCount = 0;
+                    $.each(ret.data, function(status, count){
+                        if(count > maxCount){
+                            maxCount = count;
+                        }
+                    });
+                    // 确保最大值至少为1，避免除以0
+                    maxCount = Math.max(maxCount, 1);
+                    // 初始化所有状态的条形图
+                    for(var i=0; i<=5; i++){
+                        var count = ret.data[i] || 0;
+                        var statusName = statusMap[i] || 'Unknown';
+                        $("#bar-status-" + i).jqbar({ 
+                            label: statusName, 
+                            value: count, 
+                            barColor: statusColors[i],
+                            barLength: 300,
+                            maxValue: maxCount
+                        });
+                    }
+                }
+            });
+            
+            // 获取设备类型分布
+            $.operate.ajaxpost(prefix + "/getTypeDistribution", {}, function(ret){
+                if(ret && ret.data){
+                    var typeMap = {
+                        1: 'Cold Water Meter',
+                        2: 'Hot Water Meter',
+                        3: 'Remote Water Meter',
+                        4: 'Smart Prepaid Water Meter'
+                    };
+                    // 计算最大值
+                    var maxCount = 0;
+                    $.each(ret.data, function(type, count){
+                        if(count > maxCount){
+                            maxCount = count;
+                        }
+                    });
+                    // 确保最大值至少为1，避免除以0
+                    maxCount = Math.max(maxCount, 1);
+                    // 初始化所有类型的条形图
+                    for(var i=1; i<=4; i++){
+                        var count = ret.data[i] || 0;
+                        var typeName = typeMap[i] || 'Unknown';
+                        $("#bar-type-" + i).jqbar({ 
+                            label: typeName, 
+                            value: count, 
+                            barColor: typeColors[i-1],
+                            barLength: 300,
+                            maxValue: maxCount
+                        });
+                    }
+                }
+            });
+            
+            // 获取用水量统计
+            $.operate.ajaxpost(prefix + "/getWaterUsage", {}, function(ret){
+                if(ret && ret.data){
+                    var totalUsage = ret.data.totalUsage || 0;
+                    var averageUsage = ret.data.averageUsage || 0;
+                    // 计算最大值
+                    var maxUsage = Math.max(totalUsage, averageUsage);
+                    // 确保最大值至少为1，避免除以0
+                    maxUsage = Math.max(maxUsage, 1);
+                    $("#bar-usage-total").jqbar({ 
+                        label: 'Total Water Usage (m³)', 
+                        value: totalUsage, 
+                        barColor: '#88bbc8',
+                        barLength: 300,
+                        maxValue: maxUsage
+                    });
+                    $("#bar-usage-average").jqbar({ 
+                        label: 'Average Water Usage (m³)', 
+                        value: averageUsage, 
+                        barColor: '#3a89c9',
+                        barLength: 300,
+                        maxValue: maxUsage
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

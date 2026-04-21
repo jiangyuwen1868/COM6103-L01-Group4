@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration scan="false">
+  <contextName>aoe</contextName>
+  <property name="path" value="D:\\CipherSuiteSdk_windows"/>
+
+  <appender name="CONSOLE" class="com.ciphergateway.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss} [%level] %logger - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="FILE" class="com.ciphergateway.logback.core.rolling.RollingFileAppender">
+    <file>${path}/cg.log</file>
+    <rollingPolicy class="com.ciphergateway.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+      <fileNamePattern>${path}/cg-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+      <!-- 每个文件最大20mb -->
+      <maxFileSize>20mb</maxFileSize>
+      <!-- 每个文件最多保存180天 -->
+      <maxHistory>180</maxHistory>
+      <!-- 总共最大20g -->
+      <totalSizeCap>20gb</totalSizeCap>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss} [%level] %logger - %msg%n</pattern>
+    </encoder>
+  </appender>
+  
+  <appender name="Async_FILE" class="com.ciphergateway.logback.classic.AsyncAppender">
+    <appender-ref ref="FILE"/>
+	<!-- 设置异步阻塞队列的大小，默认情况下，大小为256，为了不丢失日志建议设置的大一些 -->
+	<queueSize>10000</queueSize>
+	<!-- 设置丢弃DEBUG、TRACE、INFO日志的阀值，不丢失。默认情况下，当队列还有20%容量，他将丢弃trace、debug和info级别的日志，只保留warn和error级别的日志-->
+    <discardingThreshold>0</discardingThreshold>
+    <!-- 设置队列入队时非阻塞，当队列满时会直接丢弃日志，但是对性能提升极大 -->
+	<neverBlock>true</neverBlock>
+  </appender>
+  
+  <appender name="Tracing_Plugin" class="com.ciphergateway.logback.core.rolling.RollingFileAppender">
+    <file>${path}/cg-tracing-plugin.log</file>
+    <rollingPolicy class="com.ciphergateway.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+      <fileNamePattern>${path}/cg-tracing-plugin-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+      <!-- 每个文件最大20mb -->
+      <maxFileSize>20mb</maxFileSize>
+      <!-- 每个文件最多保存180天 -->
+      <maxHistory>180</maxHistory>
+      <!-- 总共最大20g -->
+      <totalSizeCap>20gb</totalSizeCap>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="Async_Tracing_Plugin" class="com.ciphergateway.logback.classic.AsyncAppender">
+    <appender-ref ref="Tracing_Plugin"/>
+	<!-- 设置异步阻塞队列的大小，默认情况下，大小为256，为了不丢失日志建议设置的大一些 -->
+	<queueSize>10000</queueSize>
+	<!-- 设置丢弃DEBUG、TRACE、INFO日志的阀值，不丢失。默认情况下，当队列还有20%容量，他将丢弃trace、debug和info级别的日志，只保留warn和error级别的日志-->
+    <discardingThreshold>0</discardingThreshold>
+    <!-- 设置队列入队时非阻塞，当队列满时会直接丢弃日志，但是对性能提升极大 -->
+	<neverBlock>true</neverBlock>
+  </appender>
+
+  <root level="INFO">
+    <appender-ref ref="CONSOLE"/>
+    <appender-ref ref="Async_FILE"/>
+  </root>
+  
+  <logger name="Tracing_Plugin" level="OFF" additivity="false">
+    <appender-ref ref="Async_Tracing_Plugin"/>
+  </logger>
+</configuration>

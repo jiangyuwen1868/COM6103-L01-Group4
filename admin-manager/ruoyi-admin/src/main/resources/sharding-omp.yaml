@@ -1,0 +1,24 @@
+dataSources:
+  ds:
+    dataSourceClassName: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://10.11.6.153:3306/edbtest?serverTimezone=UTC&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false&useServerPrepStmts=false&rewriteBatchedStatements=true
+    #dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    jdbcUrl: jdbc:mysql://10.11.6.153:3306/edbtest?serverTimezone=UTC&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false
+    username: edbtest
+    password: 'edbtest@123'
+    driver-class-name: com.mysql.cj.jdbc.Driver
+props:
+  sql-show: false
+  local-encryption: true
+restencrypt:
+  auth: 'appId=100001&appSecret=CQJ2i0z4iR4Lm0RU&username=securt_user'
+  url: 'http://10.128.10.16/api/v3/sharding/configs'
+  encryptUrl: 'http://10.128.10.16/apia/v3/sharding/process'
+  publicKey: 'BPNerm7rb9NYN1rmo5MXzexeLjuhSHHSo6p0Jb0XeNFApNRBh8R4TaYbj7pEReaGiggA3r5TAzmPUXRqAKJPVbQ='
+  quoteIdentifier: '`'
+  mqIp: '10.128.10.16'
+  mqPort: 5672
+  mqUsername: 'admin'
+  mqPassword: 'admin'
+  mqExchangeName: 'dedb-1'
+  mqRoutingKey: ''

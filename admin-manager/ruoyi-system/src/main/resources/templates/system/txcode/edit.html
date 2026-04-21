@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('Edit Transaction Code')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-txcode-edit" th:object="${cspTxcode}">
+            <input name="txcode" th:field="*{txcode}" type="hidden">
+			<div class="form-group">    
+                <label class="col-sm-3 control-label is-required">Tx Code：</label>
+                <div class="col-sm-8">
+                    <input name="txcode" th:field="*{txcode}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">Tx Name：</label>
+                <div class="col-sm-8">
+                    <input name="txname" th:field="*{txname}" class="form-control" type="text" required>
+                </div>
+            </div>
+            
+        
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">Parent Tx Code：</label>
+                <div class="col-sm-8">
+                    <input name="ptxcode" th:field="*{ptxcode}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">Cluster Group：</label>
+                <div class="col-sm-8">
+                    <input name="groupid" th:field="*{groupid}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">Remarks：</label>
+                <div class="col-sm-8">
+                    <input name="remark" th:field="*{remark}" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "system/txcode";
+        $("#form-txcode-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-txcode-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

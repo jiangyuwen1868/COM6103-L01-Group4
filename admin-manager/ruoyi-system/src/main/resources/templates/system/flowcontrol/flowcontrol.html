@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('Flow Control List')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>Name：</label>
+                                <input type="text" name="appid"/>
+                            </li>
+                            <li>
+                                <label>Code：</label>
+                                <input type="text" name="txcode"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;Search</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;Reset</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:flowcontrol:add">
+                    <i class="fa fa-plus"></i> Add
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:flowcontrol:edit">
+                    <i class="fa fa-edit"></i> Edit
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:flowcontrol:remove">
+                    <i class="fa fa-remove"></i> Delete
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:flowcontrol:export">
+                    <i class="fa fa-download"></i> Export
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:flowcontrol:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:flowcontrol:remove')}]];
+		var datas = [[${@dict.getType('tx_flowcontrol_opswitch')}]];
+        var prefix = ctx + "system/flowcontrol";
+
+        function toggleSwitch(appid, txcode, opswitch) {
+            $.ajax({
+                type: "POST",
+                url: prefix + "/toggleSwitch",
+                data: {"appid": appid, "txcode": txcode, "opswitch": opswitch},
+                success: function(result) {
+                    if (result.code === 0) {
+                        layer.msg("Operation successful");
+                    } else {
+                        layer.msg("Operation failed: " + result.msg);
+                    }
+                },
+                error: function() {
+                    layer.msg("Network error");
+                }
+            });
+        }
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{appid}/{txcode}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "Flow Control",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'appid',
+                    title: 'Application Name',
+                    visible: true
+                },
+                {
+                    field: 'txcode',
+                    title: 'API Service Code',
+                    visible: true
+                },
+                {
+                    field: 'tpscount',
+                    title: 'Flow Control Count'
+                },
+                {
+                    field: 'opswitch',
+                    title: 'Flow Control Switch',
+                    formatter: function(value, item, index) {
+                        var checked = item.opswitch === '1' ? 'checked' : '';
+                        return '<div class="onoffswitch">' +
+                            '<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="opswitch_' + index + '" ' + checked + ' onchange="toggleSwitch(\'' + item.appid + '\', \'' + item.txcode + '\', this.checked ? \'1\' : \'0\')">' +
+                            '<label class="onoffswitch-label" for="opswitch_' + index + '">' +
+                            '<span class="onoffswitch-inner"></span>' +
+                            '<span class="onoffswitch-switch"></span>' +
+                            '</label>' +
+                            '</div>';
+                    }
+                },
+                {
+                    title: 'Actions',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.appid + '\', \'' + row.txcode + '\')"><i class="fa fa-edit"></i>Edit</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.appid + '\', \'' + row.txcode + '\')"><i class="fa fa-remove"></i>Delete</a>');
+
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

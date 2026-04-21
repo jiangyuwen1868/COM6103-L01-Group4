@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('Voting Record List')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>Keywords：</label>
+                                <input type="text" name="remark"/>
+                            </li>
+                            <li>
+                                <label>Vote Date：</label>
+                                <input type="text" class="time-input" placeholder="Please select vote date" name="voteTime"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;Search</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;Reset</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <span style="color:red">The <Plaintext Vote Result> column is for demo reference only, not saved in production</span>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table" style="word-break:break-all; word-wrap:break-all;" class="text-nowrap"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('vote:staff:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('vote:staff:remove')}]];
+        var prefix = ctx + "vote/staff";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                modalName: "Voting Record View",
+                columns: [{
+                    checkbox: false
+                },
+                {
+                    field: 'userName',
+                    title: 'Voter Name'
+                },
+                {
+                    field: 'candidateName',
+                    title: 'Candidate Name'
+                },
+                {
+                    field: 'voteTime',
+                    title: 'Vote Date'
+                },
+                {
+                    field: 'plainRecord',
+                    title: 'Plaintext Vote Result'
+                },
+                {
+                    field: 'ballotRecord',
+                    title: 'Encrypted Vote Result'
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>
